@@ -48,6 +48,10 @@ export type DefinedInitialDataOptions<
     | (() => NonUndefinedGuard<TQueryFnData>)
 }
 
+type ExcludeExcessProperties<TInput, TRestrictTo> = {
+  [K in keyof TInput]: K extends keyof TRestrictTo ? TRestrictTo[K] : never
+}
+
 export function queryOptions<
   TInput extends DefinedInitialDataOptions<
     TQueryFnData,
@@ -60,7 +64,10 @@ export function queryOptions<
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 >(
-  options: TInput,
+  options: ExcludeExcessProperties<
+    TInput,
+    DefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>
+  >,
 ): TInput & {
   queryKey: DataTag<TQueryKey, TQueryFnData, TError>
 }
@@ -72,7 +79,10 @@ export function queryOptions<
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 >(
-  options: TInput,
+  options: ExcludeExcessProperties<
+    TInput,
+    UnusedSkipTokenOptions<TQueryFnData, TError, TData, TQueryKey>
+  >,
 ): TInput & {
   queryKey: DataTag<TQueryKey, TQueryFnData, TError>
 }
@@ -89,7 +99,10 @@ export function queryOptions<
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
 >(
-  options: TInput,
+  options: ExcludeExcessProperties<
+    TInput,
+    UndefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>
+  >,
 ): TInput & {
   queryKey: DataTag<TQueryKey, TQueryFnData, TError>
 }

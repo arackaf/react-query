@@ -49,51 +49,18 @@ export type DefinedInitialDataOptions<
 }
 
 export function queryOptions<
-  TInput extends DefinedInitialDataOptions<
-    TQueryFnData,
-    TError,
-    TData,
-    TQueryKey
-  >,
+  TInput extends
+    | DefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>
+    | UnusedSkipTokenOptions<TQueryFnData, TError, TData, TQueryKey>
+    | UndefinedInitialDataOptions<TQueryFnData, TError, TData, TQueryKey>,
   TQueryFnData = unknown,
   TError = DefaultError,
   TData = TQueryFnData,
   TQueryKey extends QueryKey = QueryKey,
->(
-  options: TInput,
-): TInput & {
-  queryKey: DataTag<TQueryKey, TQueryFnData, TError>
-}
-
-export function queryOptions<
-  TInput extends UnusedSkipTokenOptions<TQueryFnData, TError, TData, TQueryKey>,
-  TQueryFnData = unknown,
-  TError = DefaultError,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey,
->(
-  options: TInput,
-): TInput & {
-  queryKey: DataTag<TQueryKey, TQueryFnData, TError>
-}
-
-export function queryOptions<
-  TInput extends UndefinedInitialDataOptions<
-    TQueryFnData,
-    TError,
-    TData,
-    TQueryKey
-  >,
-  TQueryFnData = unknown,
-  TError = DefaultError,
-  TData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey,
->(
-  options: TInput,
-): TInput & {
-  queryKey: DataTag<TQueryKey, TQueryFnData, TError>
-}
-
-export function queryOptions(options: unknown) {
+>(options: TInput) {
   return options
 }
+
+// export function queryOptions(options: unknown) {
+//   return options
+// }
